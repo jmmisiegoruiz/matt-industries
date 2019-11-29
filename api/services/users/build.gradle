@@ -1,14 +1,14 @@
 group "${rootProject.group}"
 version "${rootProject.version}"
 
-sourceCompatibility = '1.8'
-
-repositories {
-	mavenCentral()
-}
+sourceCompatibility = "${rootProject.sourceCompatibility}"
 
 dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.10'
+	annotationProcessor 'org.projectlombok:lombok:1.18.10'
+	
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
