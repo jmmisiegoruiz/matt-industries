@@ -1,0 +1,10 @@
+<div *ngIf="!user; else authenticated">
+    <p>With Facebook: <a href="/login/facebook">click here</a></p>
+    <p>With GitHub: <a href="/login/github">click here</a></p>
+</div>
+<ng-template #authenticated>
+    Logged in as: {{user?.userAuthentication.details.name}}
+    <button mat-raised-button color="primary" (click)="logout()">Logout</button>
+</ng-template>
+
+<p>{{error}}</p>

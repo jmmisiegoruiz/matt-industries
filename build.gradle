@@ -1,0 +1,18 @@
+plugins {
+    id 'org.springframework.boot'
+    id 'com.gradle.build-scan' version '2.0.2'
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    if (name == 'demo') {
+        apply plugin: 'org.springframework.boot'
+        apply plugin: 'io.spring.dependency-management'
+        apply plugin: 'java'
+    }
+}
