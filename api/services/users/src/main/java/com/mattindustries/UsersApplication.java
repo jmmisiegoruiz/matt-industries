@@ -2,12 +2,14 @@ package com.mattindustries;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-public class Application {
+@EnableJpaAuditing
+public class UsersApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(UsersApplication.class, args);
 	}
 
 }

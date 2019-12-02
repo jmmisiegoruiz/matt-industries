@@ -17,6 +17,6 @@ pluginManagement {
 rootProject.name = 'matt-industries'
 include 'oauth-authorization-server'
 include 'ui'
-include 'demo'
+include 'app'
 include 'api'
 include 'api:services', 'api:services:users'

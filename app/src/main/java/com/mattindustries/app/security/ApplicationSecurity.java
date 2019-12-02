@@ -1,4 +1,4 @@
-package com.mattindustries.demo.security;
+package com.mattindustries.app.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;

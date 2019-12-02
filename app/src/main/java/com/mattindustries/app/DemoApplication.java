@@ -1,4 +1,4 @@
-package com.mattindustries.demo;
+package com.mattindustries.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
