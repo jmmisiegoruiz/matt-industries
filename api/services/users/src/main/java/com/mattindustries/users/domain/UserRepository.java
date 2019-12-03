@@ -1,10 +1,6 @@
 package com.mattindustries.users.domain;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {
-
-    User findUserByFacebookId(String facebookPrincipal);
-
-    User findUserByGithubId(String githubId);
+public interface UserRepository extends CrudRepository<User, Long> {
 }
