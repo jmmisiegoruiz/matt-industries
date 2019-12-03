@@ -1,22 +1,34 @@
 package com.mattindustries.users.controllers;
 
 import com.mattindustries.users.domain.User;
-import com.mattindustries.users.domain.UserRepository;
+import com.mattindustries.users.domain.UserDto;
+import com.mattindustries.users.services.UsersService;
+import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
-import java.net.URI;
 
 @RestController
 @RequestMapping("/v1/users")
 public class UsersController {
 
-    private final UserRepository userRepository;
+    private final UsersService usersService;
 
-    public UsersController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private final ModelMapper modelMapper;
+
+    public UsersController(UsersService usersService, ModelMapper modelMapper) {
+        this.usersService = usersService;
+        this.modelMapper = modelMapper;
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -34,32 +46,37 @@ public class UsersController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<User>> getUsers() {
+    public ResponseEntity<List<UserDto>> getUsers() {
         return ResponseEntity
-                .ok(this.userRepository.findAll());
+                .ok(this.usersService.getUsers().stream()
+                        .map(this::convertToDto)
+                        .collect(Collectors.toList())
+                );
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
-        return this.userRepository.findById(id).map(
+        return this.usersService.getUser(id).map(
                 ResponseEntity::ok
         ).orElseThrow(() -> new UserNotFoundException(id));
     }
     
-    @PostMapping
-    ResponseEntity<User> post(@RequestBody User user) {
+    @PostMapping(consumes = "application/json")
+    ResponseEntity<UserDto> post(@RequestBody UserDto userDto) {
 
-        User userToSave = new User();
-        userToSave.setFirstName(user.getFirstName());
-        userToSave.setLastName(user.getLastName());
-        userToSave.setFacebookId(user.getFacebookId());
-        user.setGithubId(user.getGithubId());
-
-        User savedUser = this.userRepository.save(userToSave);
+        User user = this.usersService.saveUser(convertToEntity(userDto));
 
         URI uri = MvcUriComponentsBuilder.fromController(getClass()).path("/{id}")
-                .buildAndExpand(savedUser.getId()).toUri();
-        return ResponseEntity.created(uri).body(savedUser);
+                .buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.created(uri).body(convertToDto(user));
     }
-    
+
+    private UserDto convertToDto(User user) {
+        return modelMapper.map(user, UserDto.class);
+    }
+
+    private User convertToEntity(UserDto userDto) {
+        return modelMapper.map(userDto, User.class);
+    }
+
 }
