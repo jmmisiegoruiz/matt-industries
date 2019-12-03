@@ -1,4 +1,4 @@
-package com.mattindustries;
+package com.mattindustries.users;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,6 +1,6 @@
 package com.mattindustries.users.domain;
 
-import com.mattindustries.data.BaseEntity;
+import com.mattindustries.users.data.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,10 +24,8 @@ public class User extends BaseEntity {
     private Long id;
     private String firstName;
     private String lastName;
-    @NotNull
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String facebookId;
-    @NotNull
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String githubId;
 }

@@ -1,4 +1,4 @@
-package com.mattindustries.data;
+package com.mattindustries.users.data;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
