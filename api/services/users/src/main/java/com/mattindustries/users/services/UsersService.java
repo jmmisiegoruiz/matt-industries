@@ -2,11 +2,12 @@ package com.mattindustries.users.services;
 
 import com.mattindustries.users.domain.User;
 import com.mattindustries.users.domain.UserRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UsersService {
@@ -29,5 +30,9 @@ public class UsersService {
 
     public User saveUser(User user) {
         return this.userRepository.save(user);
+    }
+
+    public void deleteUser(User user) {
+        this.userRepository.delete(user);
     }
 }
