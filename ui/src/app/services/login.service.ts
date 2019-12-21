@@ -17,7 +17,7 @@ export interface User {
 })
 export class LoginService {
 
-    user$: Observable<User> = this.http.get<User>('/user')
+    user$: Observable<User> = this.http.get<User>('/me')
         .pipe(
             catchError(err => {
                 console.error(err);

@@ -1,8 +1,11 @@
 sourceCompatibility = "${rootProject.sourceCompatibility}"
 dependencies {
+	annotationProcessor 'org.projectlombok:lombok:1.18.10'
+	compileOnly 'org.projectlombok:lombok:1.18.10'
 	runtimeOnly project(':ui')
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.0.RELEASE'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

@@ -3,17 +3,16 @@ package com.mattindustries.users.controllers;
 import com.mattindustries.users.domain.User;
 import com.mattindustries.users.domain.UserDto;
 import com.mattindustries.users.services.UsersService;
-
-import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -55,6 +54,13 @@ public class UsersController {
     public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
         return this.usersService.getUser(id).map(user -> ResponseEntity.ok(convertToDto(user))
         ).orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    @GetMapping(value = "/principal/{principal}")
+    public ResponseEntity<UserDto> getUserByPrincipal(@PathVariable String principal) {
+        return this.usersService.getUserByPrincipal(principal)
+                .map(user -> ResponseEntity.ok(convertToDto(user)))
+                .orElseThrow(() -> new UserNotFoundException(principal));
     }
 
     @PostMapping(consumes = "application/json")

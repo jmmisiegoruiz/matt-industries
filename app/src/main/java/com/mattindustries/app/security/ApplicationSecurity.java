@@ -1,5 +1,6 @@
 package com.mattindustries.app.security;
 
+import com.mattindustries.app.security.extractors.FacebookPrincipalExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
@@ -35,11 +36,11 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         http
                 .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers( "/", "/user", "/login**","/logout","/*.js", "/webjars/**", "/error**")
+                .antMatchers( "/", "/me", "/login**","/logout","/*.js", "/webjars/**", "/error**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
-                .and().logout().logoutSuccessUrl("/user").permitAll()
+                .and().logout().logoutSuccessUrl("/me").permitAll()
                 .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
     }
@@ -85,6 +86,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         OAuth2RestTemplate facebookTemplate = new OAuth2RestTemplate(facebook(), oauth2ClientContext);
         facebookFilter.setRestTemplate(facebookTemplate);
         UserInfoTokenServices tokenServices = new UserInfoTokenServices(facebookResource().getUserInfoUri(), facebook().getClientId());
+        tokenServices.setPrincipalExtractor(new FacebookPrincipalExtractor());
         tokenServices.setRestTemplate(facebookTemplate);
         facebookFilter.setTokenServices(tokenServices);
         filters.add(facebookFilter);
